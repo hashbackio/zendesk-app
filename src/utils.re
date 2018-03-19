@@ -20,13 +20,13 @@ type requestMethod = [
 let createGuid = guidString => Guid(guidString);
 
 let guidToString = guid =>
-  switch guid {
+  switch (guid) {
   | Guid(guidString) => guidString
   };
 
 let createUrl = urlString => Url(urlString);
 
 let urlToString = url =>
-  switch url {
+  switch (url) {
   | Url(urlString) => urlString
   };

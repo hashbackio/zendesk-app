@@ -1,20 +1,24 @@
 type action =
   | ConfigureHashbackForSubdomain
   | LoadInitialData
-  | UpdateData(bool, option(ZafClient.subdomain), option(ZafClient.subdomain));
+  | UpdateData(
+      bool,
+      option(ZafClient.subdomain),
+      option(ZafClient.subdomain),
+    );
 
 type state = {
   isLoading: bool,
   hasOauthToken: bool,
   subdomainOnHashback: option(ZafClient.subdomain),
-  subdomainOnZendesk: option(ZafClient.subdomain)
+  subdomainOnZendesk: option(ZafClient.subdomain),
 };
 
 let initialState = {
   isLoading: true,
   hasOauthToken: false,
   subdomainOnHashback: None,
-  subdomainOnZendesk: None
+  subdomainOnZendesk: None,
 };
 
 let component = ReasonReact.reducerComponent("App");
@@ -27,7 +31,7 @@ let hashbackIsCorrectlyConfigured =
     <p className="c-callout__paragraph">
       (
         ReasonReact.stringToElement(
-          "Your Zendesk app will now update new tickets with analysis from Hashback."
+          "Your Zendesk app will now update new tickets with analysis from Hashback.",
         )
       )
     </p>
@@ -41,7 +45,7 @@ let hashbackRequiresConfiguration = self =>
     <p className="c-callout__paragraph">
       (
         ReasonReact.stringToElement(
-          "Click the below button to finish the setup for your Hashback account."
+          "Click the below button to finish the setup for your Hashback account.",
         )
       )
     </p>
@@ -66,23 +70,23 @@ let make = _children => {
   didMount: ({state}) =>
     ReasonReact.UpdateWithSideEffects(
       state,
-      ({send}) => ZafClient.onAppRegistered(() => send(LoadInitialData))
+      ({send}) => ZafClient.onAppRegistered(() => send(LoadInitialData)),
     ),
   reducer: (action, _) =>
-    switch action {
+    switch (action) {
     | ConfigureHashbackForSubdomain =>
       ReasonReact.SideEffects(
         (
           ({state}) =>
-            switch state {
+            switch (state) {
             | {subdomainOnZendesk: Some(ZafClient.Subdomain(subdomain))} =>
               navigateToExternalPage(
                 "https://app.hashback.io/settings/integrate/zendesk/"
-                ++ subdomain
+                ++ subdomain,
               )
             | _ => ()
             }
-        )
+        ),
       )
     | LoadInitialData =>
       ReasonReact.UpdateWithSideEffects(
@@ -92,28 +96,33 @@ let make = _children => {
             Js.Promise.(
               all2((ZafClient.getSubdomain(), ZafClient.getHashbackStatus()))
               |> then_(
-                   ((subdomainOnZendesk, {ZafClient.hasOauthToken, subdomain})) =>
+                   (
+                     (
+                       subdomainOnZendesk,
+                       {ZafClient.hasOauthToken, subdomain},
+                     ),
+                   ) =>
                    self.send(
-                     UpdateData(hasOauthToken, subdomain, subdomainOnZendesk)
+                     UpdateData(hasOauthToken, subdomain, subdomainOnZendesk),
                    )
                    |> resolve
                  )
               |> ignore
             )
-        )
+        ),
       )
     | UpdateData(hasOauthToken, subdomainOnHashback, subdomainOnZendesk) =>
       ReasonReact.Update({
         isLoading: false,
         hasOauthToken,
         subdomainOnHashback,
-        subdomainOnZendesk
+        subdomainOnZendesk,
       })
     },
   render: ({state} as self) =>
     <div className="hashback-app">
       (
-        switch state {
+        switch (state) {
         | {isLoading: true} =>
           <section> (ReasonReact.stringToElement("Loading...")) </section>
         | {
@@ -121,12 +130,14 @@ let make = _children => {
             hasOauthToken: true,
             subdomainOnHashback:
               Some(ZafClient.Subdomain(subdomainOnHashback)),
-            subdomainOnZendesk: Some(ZafClient.Subdomain(subdomainOnZendesk))
+            subdomainOnZendesk:
+              Some(ZafClient.Subdomain(subdomainOnZendesk)),
           } =>
           subdomainOnHashback == subdomainOnZendesk ?
-            hashbackIsCorrectlyConfigured : hashbackRequiresConfiguration(self)
+            hashbackIsCorrectlyConfigured :
+            hashbackRequiresConfiguration(self)
         | _ => hashbackRequiresConfiguration(self)
         }
       )
-    </div>
+    </div>,
 };

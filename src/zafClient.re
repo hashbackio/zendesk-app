@@ -23,29 +23,29 @@ type context = {
   product,
   account: option(account),
   location,
-  ticketId: option(int)
+  ticketId: option(int),
 };
 
 type requestOptions = {
   url: Utils.url,
   secure: bool,
-  _type: Utils.requestMethod
+  _type: Utils.requestMethod,
 };
 
 type hashbackStatus = {
   hasOauthToken: bool,
-  subdomain: option(subdomain)
+  subdomain: option(subdomain),
 };
 
 module Decode = {
   let product = productString =>
-    switch productString {
+    switch (productString) {
     | "support" => Support
     | "chat" => Chat
     | e => raise(Failure("Unknown product: " ++ e))
     };
   let location = locationString =>
-    switch locationString {
+    switch (locationString) {
     | "background" => Background
     | "modal" => Modal
     | "nav_bar" => NavBar
@@ -58,13 +58,13 @@ module Decode = {
     | e => raise(Failure("Unknown product: " ++ e))
     };
   let subdomain = maybeSubdomainString =>
-    switch maybeSubdomainString {
+    switch (maybeSubdomainString) {
     | Some(subdomainString) => Some(Subdomain(subdomainString))
     | None => None
     };
   let account = json =>
     Json.Decode.{
-      subdomain: json |> optional(field("subdomain", string)) |> subdomain
+      subdomain: json |> optional(field("subdomain", string)) |> subdomain,
     };
   let context = json =>
     Json.Decode.{
@@ -72,12 +72,12 @@ module Decode = {
       product: json |> field("product", string) |> product,
       account: json |> optional(field("account", account)),
       location: json |> field("location", string) |> location,
-      ticketId: json |> optional(field("ticketId", int))
+      ticketId: json |> optional(field("ticketId", int)),
     };
   let hashbackStatus = json =>
     Json.Decode.{
       hasOauthToken: json |> field("hasOauthToken", bool),
-      subdomain: json |> optional(field("subdomain", string)) |> subdomain
+      subdomain: json |> optional(field("subdomain", string)) |> subdomain,
     };
 };
 
@@ -96,7 +96,7 @@ external request :
       .
       "url": string,
       "secure": Js.boolean,
-      "_type": string
+      "_type": string,
     }
   ) =>
   Js.Promise.t(Js.Json.t) =
@@ -119,9 +119,9 @@ let makeRequest = ({url, secure, _type}) =>
       {
         "url": urlToString(url),
         "secure": Js.Boolean.to_js_boolean(secure),
-        "_type": requestMethodToJs(_type)
+        "_type": requestMethodToJs(_type),
       }
-    )
+    ),
   );
 
 let getContext = () =>
@@ -135,7 +135,7 @@ let accountLens =
   Rationale.Lens.(
     make(
       context => context.account,
-      (account, context) => {...context, account}
+      (account, context) => {...context, account},
     )
     >>- optional({subdomain: None})
   );
@@ -144,7 +144,7 @@ let subdomainLens =
   Rationale.Lens.(
     make(
       (account: account) => account.subdomain,
-      (subdomain, _) => {subdomain: subdomain}
+      (subdomain, _) => {subdomain: subdomain},
     )
   );
 
@@ -164,11 +164,11 @@ let getHashbackStatus = () =>
       Utils.{
         url:
           Url(
-            "https://api.hashback.io/feedback/zendesk/status?token={{setting.token}}"
+            "https://api.hashback.io/feedback/zendesk/status?token={{setting.token}}",
           ),
         secure: true,
-        _type: `Get
-      }
+        _type: `Get,
+      },
     )
     |> then_(json => json |> Decode.hashbackStatus |> resolve)
   );
