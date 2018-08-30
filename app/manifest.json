@@ -18,7 +18,7 @@
       "name": "token",
       "required": false,
       "secure": true,
-      "type": "hidden"
+      "type": "text"
     }
   ],
   "private": false,

@@ -5,7 +5,7 @@
     "name": "Hashback",
     "parameters": {
       "token": {
-        "helpText": "API Token for your Hashback account. This is set automatically for you and shouldn't need to be changed.",
+        "helpText": "API Token for your Hashback account. This will be set automatically for you and shouldn't need to be changed.",
         "label": "Hashback API Token"
       }
     },
