@@ -17,10 +17,16 @@
       "XXX",
       "IDEA",
       "NOTE",
-      "REVIEW"
+      "REVIEW",
+      "HELP"
     ]
   },
-  "lists": [],
+  "lists": [
+    {
+      "name": "HELP",
+      "hidden": false
+    }
+  ],
   "marked": {
     "gfm": true,
     "tables": true,
@@ -33,5 +39,6 @@
     "id": "5a145846ae279f78ab91899e",
     "name": "hashbackio/zendesk-app",
     "useImdoneioForPriority": true
-  }
+  },
+  "noHelp": true
 }
