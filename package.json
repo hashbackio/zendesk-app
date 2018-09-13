@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@glennsl/bs-json": "^3.0.0",
-    "@hashback/shared": "^1.0.0-35",
+    "@hashback/shared": "^1.0.0-47",
     "@zendeskgarden/react-buttons": "^3.4.3",
     "@zendeskgarden/react-grid": "^1.1.9",
     "@zendeskgarden/react-loaders": "^0.1.1",
@@ -32,5 +32,5 @@
     "package": "yarn build:production && (cd app; zat package)",
     "start": "parcel ./src/index.html"
   },
-  "version": "1.0.0-41"
+  "version": "1.0.0-47"
 }

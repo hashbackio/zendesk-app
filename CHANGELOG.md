@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-47"></a>
+# [1.0.0-47](https://github.com/hashbackio/hashback/compare/v1.0.0-46...v1.0.0-47) (2018-09-11)
+
+
+
+
+**Note:** Version bump only for package @hashback/zendesk-app
+
+<a name="1.0.0-46"></a>
+# [1.0.0-46](https://github.com/hashbackio/hashback/compare/v1.0.0-45...v1.0.0-46) (2018-09-05)
+
+
+
+
+**Note:** Version bump only for package @hashback/zendesk-app
+
+<a name="1.0.0-45"></a>
+# [1.0.0-45](https://github.com/hashbackio/hashback/compare/v1.0.0-44...v1.0.0-45) (2018-09-05)
+
+
+
+
+**Note:** Version bump only for package @hashback/zendesk-app
+
+<a name="1.0.0-42"></a>
+# [1.0.0-42](https://github.com/hashbackio/hashback/compare/v1.0.0-41...v1.0.0-42) (2018-08-30)
+
+
+### Features
+
+* remove favicon ([74dcab1](https://github.com/hashbackio/hashback/commit/74dcab1))
+
+
+
+
 <a name="1.0.0-41"></a>
 # [1.0.0-41](https://github.com/hashbackio/hashback/compare/v1.0.0-40...v1.0.0-41) (2018-08-30)
 
